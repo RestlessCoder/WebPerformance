@@ -1,16 +1,12 @@
 /*
 Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
-
 There are two major issues in this code that lead to sub-60fps performance. Can
 you spot and fix both?
-
-
 Built into the code, you'll find a few instances of the User Timing API
 (window.performance), which will be console.log()ing frame rate data into the
 browser console. To learn more about User Timing API, check out:
 http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
 Creator:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
@@ -500,11 +496,24 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
-  var items = document.querySelectorAll('.mover');
+  
+  // The document.body.scrollTop is constant here(out of the loop)
+  // Read & Write Cycle here 
+  // To understand more https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing#avoid-forced-synchronous-layouts
+  var scrollTop = document.body.scrollTop / 1250; // Read
+  // Set target to 5, only 5 unique phases for each scroll to reducing the scripting time
+  var constPhases = [];
+  for(var i = 0; i < 5; i++) {
+    constPhases.push(Math.sin(scrollTop + i));
+  } 
+ 
+  // Used getElementsByClassName() faster to access the DOM which reducing the scripting time
+  var items = document.getElementsByClassName('mover');
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    /* Move the Math.sin calculation outside the loop without doing
+       the same calculation repeatedly for each iteration (Avoid FSLs) */
+    // var phase = Math.sin((scrollTop) + (i % 5));
+    items[i].style.left = items[i].basicLeft + 100 * constPhases[i % 5] + 'px'; // Write
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -524,7 +533,9 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  // Reduce the 200 animating pizza in the backgrounds to 36. We dont need 200 moving pizza created in the background
+  // Reduce the scripting time
+  for (var i = 0; i < 36; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
