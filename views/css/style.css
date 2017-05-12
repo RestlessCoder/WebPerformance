@@ -30,9 +30,13 @@ form {
 }
 
 .mover {
+  will-change: transform; /* Add will-change transform to allow broswer to make proper optimizations in advance, leads to quicker rendering */
+  transform: translateZ(0);  /* force class mover into their own composite layer to offloads the texturing and painting to the GPU  */
+  transform: translate3d(0,0,0);        
   position: fixed;
   width: 256px;
   z-index: -1;
+  backface-visibility: hidden; /* This hack forces moving pizza to have its own composite layer(reducing paint time especially for the mobile) */
 }
 
 .randomPizzaContainer {
