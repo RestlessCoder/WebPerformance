@@ -513,7 +513,11 @@ function updatePositions() {
     /* Move the Math.sin calculation outside the loop without doing
        the same calculation repeatedly for each iteration (Avoid FSLs) */
     // var phase = Math.sin((scrollTop) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * constPhases[i % 5] + 'px'; // Write
+    // items[i].style.left = items[i].basicLeft + 100 * constPhases[i % 5] + 'px'; // Write
+    /* Using transform to reduce the layout time (More efficiency using transform than
+     * using basic moving picture animation
+     */
+    items[i].style.transform = "translateX("+ 750 * constPhases[i % 5] + 'px)';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
