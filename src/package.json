@@ -1,0 +1,24 @@
+{
+  "name": "webperformance",
+  "version": "1.0.0",
+  "description": "This project goal is to optimize this online portfolio for speed. The steps that I have done shown below:\r * Part 1: Optimize the Critical Rendering path(CPR) by using PageSpeed tool to achieves a score of 90 above for Mobile and Desktop (index.html)\r * Part 2: Improve the frame-rate at 60fps when scrolling. (main.js) & (pizza.html).\r * Part 3: Resize the pizza images in less 5 ms by using the pizza size slider.\r To get started, check out the repository and inspect the code.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RestlessCoder/WebPerformance.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RestlessCoder/WebPerformance/issues"
+  },
+  "homepage": "https://github.com/RestlessCoder/WebPerformance#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.2.0",
+    "gulp-imagemin": "^3.2.0"
+  }
+}
